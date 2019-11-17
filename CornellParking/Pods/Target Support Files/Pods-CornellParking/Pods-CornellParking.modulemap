@@ -1,0 +1,6 @@
+framework module Pods_CornellParking {
+  umbrella header "Pods-CornellParking-umbrella.h"
+
+  export *
+  module * { export * }
+}
