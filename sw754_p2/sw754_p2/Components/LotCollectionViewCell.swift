@@ -13,6 +13,12 @@ class LotCollectionViewCell: UICollectionViewCell {
     var paddingOffset: CGFloat = 20
     var nameLabel: UILabel!
     var backgroundImageView: UIImageView!
+    var bottomBar: UIView!
+    var bottomBox: UIView!
+    
+    var labelHeight: CGFloat = 50
+    var bottomBarHeight: CGFloat = 40
+    var labelPadding: CGFloat = 10
     
     var colors = ["blue", "red", "yellow", "green", "orange"]
     
@@ -22,6 +28,8 @@ class LotCollectionViewCell: UICollectionViewCell {
         
         backgroundImageView = UIImageView()
         nameLabel = UILabel()
+        bottomBar = UIView()
+        bottomBox = UIView()
         
         contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.cgColor
@@ -30,11 +38,12 @@ class LotCollectionViewCell: UICollectionViewCell {
         contentView.layer.shadowRadius = 5
         
         
-        
         backgroundImageView.contentMode = .scaleAspectFill
         backgroundImageView.layer.masksToBounds = true
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.backgroundColor = .systemYellow
+        
+            
         contentView.addSubview(backgroundImageView)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +52,16 @@ class LotCollectionViewCell: UICollectionViewCell {
         nameLabel.numberOfLines = 0
         nameLabel.textColor = .white
         contentView.addSubview(nameLabel)
+        
+        bottomBar.translatesAutoresizingMaskIntoConstraints = false
+        bottomBar.layer.masksToBounds = false;
+        bottomBar.backgroundColor = .white
+        
+        bottomBox.translatesAutoresizingMaskIntoConstraints = false
+        bottomBox.backgroundColor = .white
+        bottomBar.addSubview(bottomBox)
+        
+        contentView.addSubview(bottomBar)
         
         
         setupConstraints()
@@ -67,14 +86,27 @@ class LotCollectionViewCell: UICollectionViewCell {
             backgroundImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             backgroundImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -bottomBarHeight),
         ])
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: paddingOffset),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: paddingLeft),
             nameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+        ])
+        
+        NSLayoutConstraint.activate([
+            bottomBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomBar.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            bottomBar.heightAnchor.constraint(equalToConstant: bottomBarHeight),
             
+        ])
+        
+        NSLayoutConstraint.activate([
+            bottomBox.bottomAnchor.constraint(equalTo: bottomBar.bottomAnchor),
+            bottomBox.leadingAnchor.constraint(equalTo: bottomBar.leadingAnchor, constant: labelPadding),
+            bottomBox.trailingAnchor.constraint(equalTo: bottomBar.trailingAnchor, constant: -labelPadding),
+            bottomBox.heightAnchor.constraint(equalToConstant: labelHeight),
         ])
     }
 }

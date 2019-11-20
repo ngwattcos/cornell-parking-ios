@@ -17,9 +17,11 @@ enum Location: String {
 class Lot {
     let name: String
     let location: Location
+    let availability: Int
     
-    init(name: String, location: Location) {
+    init(name: String, location: Location, availability: Int) {
         self.name = name
         self.location = location
+        self.availability = availability
     }
 }

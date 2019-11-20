@@ -12,8 +12,8 @@ class SelectLotViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var background: UIView!
-    var padding: CGFloat = 10
-    var paddingSide: CGFloat = 10
+    var padding: CGFloat = 20
+    var paddingSide: CGFloat = 20
     let headerHeight: CGFloat = 30
     
     
@@ -28,6 +28,8 @@ class SelectLotViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        title = "Select Parking Lot"
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -94,8 +96,9 @@ extension SelectLotViewController: UICollectionViewDataSource {
 
 extension SelectLotViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = (collectionView.frame.width - 1 * padding) / 2
-        return CGSize(width: cellSize, height: cellSize)
+        let cellWidth = (collectionView.frame.width - 1 * padding) / 2
+        let cellHeight = CGFloat(Int(cellWidth + 30))
+        return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
