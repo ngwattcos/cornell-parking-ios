@@ -13,6 +13,7 @@ class SelectLotViewController: UIViewController {
     var collectionView: UICollectionView!
     var background: UIView!
     var padding: CGFloat = 10
+    var paddingSide: CGFloat = 10
     let headerHeight: CGFloat = 30
     
     
@@ -26,7 +27,7 @@ class SelectLotViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .white
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -57,8 +58,8 @@ class SelectLotViewController: UIViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: paddingSide),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingSide),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
@@ -93,7 +94,7 @@ extension SelectLotViewController: UICollectionViewDataSource {
 
 extension SelectLotViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = (collectionView.frame.width - 2 * padding) / 2
+        let cellSize = (collectionView.frame.width - 1 * padding) / 2
         return CGSize(width: cellSize, height: cellSize)
     }
     

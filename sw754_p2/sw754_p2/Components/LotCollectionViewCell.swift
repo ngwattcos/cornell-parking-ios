@@ -23,6 +23,12 @@ class LotCollectionViewCell: UICollectionViewCell {
         backgroundImageView = UIImageView()
         nameLabel = UILabel()
         
+        contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOpacity = 0.3
+        contentView.layer.shadowOffset = .zero
+        contentView.layer.shadowRadius = 5
+        
         
         
         backgroundImageView.contentMode = .scaleAspectFill
