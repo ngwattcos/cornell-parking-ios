@@ -3,31 +3,41 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		717BB4E24BD8FDBEFC1E20BA /* Pods_CornellParking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C941A82D1C1A89ABBF4080D /* Pods_CornellParking.framework */; };
+		904E3A9A2383BBF1003DC3FC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904E3A992383BBF1003DC3FC /* NetworkManager.swift */; };
+		904E3A9D2383BD3D003DC3FC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904E3A9C2383BD3D003DC3FC /* Coordinator.swift */; };
+		904E3A9F2383BE50003DC3FC /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904E3A9E2383BE50003DC3FC /* MainCoordinator.swift */; };
+		9081FC582383C88F00332E22 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC572383C88F00332E22 /* RoundedButton.swift */; };
 		90A2195D2381FE87003027A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2195C2381FE87003027A9 /* AppDelegate.swift */; };
-		90A2195F2381FE87003027A9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2195E2381FE87003027A9 /* SceneDelegate.swift */; };
-		90A219612381FE87003027A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A219602381FE87003027A9 /* ContentView.swift */; };
 		90A219632381FE8D003027A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A219622381FE8D003027A9 /* Assets.xcassets */; };
 		90A219662381FE8D003027A9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A219652381FE8D003027A9 /* Preview Assets.xcassets */; };
 		90A219692381FE8D003027A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90A219672381FE8D003027A9 /* LaunchScreen.storyboard */; };
+		90AE7A342383B6B40015E665 /* SelectLotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE7A332383B6B40015E665 /* SelectLotViewController.swift */; };
+		90AE7A372383B7BF0015E665 /* LotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE7A362383B7BF0015E665 /* LotCollectionViewCell.swift */; };
+		90AE7A392383B7D60015E665 /* Lot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE7A382383B7D60015E665 /* Lot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		18E428D17F2A44DD7E10F6BF /* Pods-CornellParking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CornellParking.debug.xcconfig"; path = "Target Support Files/Pods-CornellParking/Pods-CornellParking.debug.xcconfig"; sourceTree = "<group>"; };
 		344B8D36C3077DADE0C3B282 /* Pods-CornellParking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CornellParking.release.xcconfig"; path = "Target Support Files/Pods-CornellParking/Pods-CornellParking.release.xcconfig"; sourceTree = "<group>"; };
 		5C941A82D1C1A89ABBF4080D /* Pods_CornellParking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CornellParking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		904E3A992383BBF1003DC3FC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		904E3A9C2383BD3D003DC3FC /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		904E3A9E2383BE50003DC3FC /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		9081FC572383C88F00332E22 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		90A219592381FE87003027A9 /* CornellParking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CornellParking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2195C2381FE87003027A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		90A2195E2381FE87003027A9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		90A219602381FE87003027A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		90A219622381FE8D003027A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90A219652381FE8D003027A9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		90A219682381FE8D003027A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		90A2196A2381FE8D003027A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90AE7A332383B6B40015E665 /* SelectLotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLotViewController.swift; sourceTree = "<group>"; };
+		90AE7A362383B7BF0015E665 /* LotCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotCollectionViewCell.swift; sourceTree = "<group>"; };
+		90AE7A382383B7D60015E665 /* Lot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +66,16 @@
 				18E428D17F2A44DD7E10F6BF /* Pods-CornellParking.debug.xcconfig */,
 				344B8D36C3077DADE0C3B282 /* Pods-CornellParking.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		904E3A9B2383BD27003DC3FC /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				904E3A9C2383BD3D003DC3FC /* Coordinator.swift */,
+				904E3A9E2383BE50003DC3FC /* MainCoordinator.swift */,
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 		90A219502381FE87003027A9 = {
@@ -81,13 +99,16 @@
 		90A2195B2381FE87003027A9 /* CornellParking */ = {
 			isa = PBXGroup;
 			children = (
+				904E3A9B2383BD27003DC3FC /* Coordinators */,
+				90AE7A352383B7A60015E665 /* Components */,
+				90AE7A322383B69A0015E665 /* Views */,
+				90AE7A302383AA3D0015E665 /* Models */,
 				90A2195C2381FE87003027A9 /* AppDelegate.swift */,
-				90A2195E2381FE87003027A9 /* SceneDelegate.swift */,
-				90A219602381FE87003027A9 /* ContentView.swift */,
 				90A219622381FE8D003027A9 /* Assets.xcassets */,
 				90A219672381FE8D003027A9 /* LaunchScreen.storyboard */,
 				90A2196A2381FE8D003027A9 /* Info.plist */,
 				90A219642381FE8D003027A9 /* Preview Content */,
+				904E3A992383BBF1003DC3FC /* NetworkManager.swift */,
 			);
 			path = CornellParking;
 			sourceTree = "<group>";
@@ -98,6 +119,31 @@
 				90A219652381FE8D003027A9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		90AE7A302383AA3D0015E665 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				90AE7A382383B7D60015E665 /* Lot.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		90AE7A322383B69A0015E665 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				90AE7A332383B6B40015E665 /* SelectLotViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		90AE7A352383B7A60015E665 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				90AE7A362383B7BF0015E665 /* LotCollectionViewCell.swift */,
+				9081FC572383C88F00332E22 /* RoundedButton.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,9 +261,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90AE7A342383B6B40015E665 /* SelectLotViewController.swift in Sources */,
+				904E3A9F2383BE50003DC3FC /* MainCoordinator.swift in Sources */,
+				90AE7A372383B7BF0015E665 /* LotCollectionViewCell.swift in Sources */,
+				9081FC582383C88F00332E22 /* RoundedButton.swift in Sources */,
+				904E3A9D2383BD3D003DC3FC /* Coordinator.swift in Sources */,
+				904E3A9A2383BBF1003DC3FC /* NetworkManager.swift in Sources */,
 				90A2195D2381FE87003027A9 /* AppDelegate.swift in Sources */,
-				90A2195F2381FE87003027A9 /* SceneDelegate.swift in Sources */,
-				90A219612381FE87003027A9 /* ContentView.swift in Sources */,
+				90AE7A392383B7D60015E665 /* Lot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
