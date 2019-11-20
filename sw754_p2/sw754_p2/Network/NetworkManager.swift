@@ -20,8 +20,14 @@ class NetworkManager {
          */
         
         // for now, just generate lots manually
-        let lots: [Lot] = []
         
-        let West = Lot(name: "West Lot")
+        let north = Lot(name: "NORTH CC LOT", location: .north)
+        let north2 = Lot(name: "NORTH A LOT", location: .north)
+        let central = Lot(name: "CENTRAL LOT", location: .central)
+        let central2 = Lot(name: "ROCKEFELLER", location: .central)
+        let west = Lot(name: "WEST LOT", location: .west)
+        let west2 = Lot(name: "BAKER", location: .west)
+        
+        completion([north, north2, central, central2, west, west2])
     }
 }

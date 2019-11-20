@@ -8,10 +8,18 @@
 
 import Foundation
 
+enum Location: String {
+    case north = "left"
+    case central = "tower"
+    case west = "right"
+}
+
 class Lot {
     let name: String
+    let location: Location
     
-    init(name: String) {
+    init(name: String, location: Location) {
         self.name = name
+        self.location = location
     }
 }

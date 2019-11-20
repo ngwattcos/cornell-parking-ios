@@ -12,9 +12,15 @@ class SelectLotViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var background: UIView!
-    var padding: CGFloat = 50
+    var padding: CGFloat = 10
     let headerHeight: CGFloat = 30
     
+    
+    
+    let lotCellReuseIdentifier = "lotCellReuseIdentifier"
+    let headerReuseIdentifier = "headerReuseIdentifier"
+    
+    var lots: [Lot]! = []
     
 
     override func viewDidLoad() {
@@ -29,7 +35,10 @@ class SelectLotViewController: UIViewController {
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemYellow
+        collectionView.backgroundColor = .white
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(LotCollectionViewCell.self, forCellWithReuseIdentifier: lotCellReuseIdentifier)
         view.addSubview(collectionView)
         
 //        background = UIView()
@@ -41,6 +50,7 @@ class SelectLotViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         setupConstraints()
+        loadLots()
     }
     
 
@@ -52,12 +62,38 @@ class SelectLotViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
+    
+    func loadLots() {
+        NetworkManager.getLots({ lots in
+            self.lots.removeAll()
+            
+            for lot in lots {
+                self.lots.append(lot)
+            }
+        })
+        
+        collectionView.reloadData()
+    }
 
+}
+
+extension SelectLotViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return lots.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: lotCellReuseIdentifier, for: indexPath) as! LotCollectionViewCell
+        
+        cell.configure(for: lots[indexPath.row], index: indexPath.row)
+        
+        return cell
+    }
 }
 
 extension SelectLotViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = (collectionView.frame.width - 2 * padding) / 3
+        let cellSize = (collectionView.frame.width - 2 * padding) / 2
         return CGSize(width: cellSize, height: cellSize)
     }
     
