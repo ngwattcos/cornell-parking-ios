@@ -1,20 +1,28 @@
 PODS:
   - Alamofire (4.9.1)
+  - CHIPageControl/Aji (0.2)
+  - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.6)
+  - CHIPageControl/Aji
+  - SnapKit (~> 5.0.0)
   - SwiftyJSON
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CHIPageControl
+    - SnapKit
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  CHIPageControl: a787bf7205c9b7e7fbfc412be36c5e8636b68f86
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 3926cb2d4e193ae97b11926eb9fe63e148200ec6
+PODFILE CHECKSUM: d76bf2a5e23f9d82f122d81925fdf33fc247c96c
 
 COCOAPODS: 1.8.4

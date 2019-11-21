@@ -10,8 +10,9 @@ import UIKit
 import Foundation
 
 // followed https://www.hackingwithswift.com/articles/71/how-to-use-the-coordinator-pattern-in-ios-apps
-// and guidance from a previous iOS developer internship
-protocol Coordinator {
+// and some experience from a recent iOS developer internship
+protocol Coordinator: AnyObject {
+    var parentCoordinator: Coordinator? {get set}
     var childCoordinators: [Coordinator] {get set}
     var navigationController: UINavigationController! {get set}
     

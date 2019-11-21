@@ -16,9 +16,14 @@ class LotCollectionViewCell: UICollectionViewCell {
     var bottomBar: UIView!
     var bottomBox: UIView!
     
-    var labelHeight: CGFloat = 50
+    // the puns are real
+    var avaiLabel: UILabel!
+    var locationLabel: UILabel!
+    
+    var labelHeight: CGFloat = 60
     var bottomBarHeight: CGFloat = 40
-    var labelPadding: CGFloat = 10
+    var labelPadding: CGFloat = 20
+    var labelSpacing: CGFloat = 10
     
     var colors = ["blue", "red", "yellow", "green", "orange"]
     
@@ -30,13 +35,14 @@ class LotCollectionViewCell: UICollectionViewCell {
         nameLabel = UILabel()
         bottomBar = UIView()
         bottomBox = UIView()
+        avaiLabel = UILabel()
+        locationLabel = UILabel()
         
         contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.3
         contentView.layer.shadowOffset = .zero
         contentView.layer.shadowRadius = 5
-        
         
         backgroundImageView.contentMode = .scaleAspectFill
         backgroundImageView.layer.masksToBounds = true
@@ -59,7 +65,35 @@ class LotCollectionViewCell: UICollectionViewCell {
         
         bottomBox.translatesAutoresizingMaskIntoConstraints = false
         bottomBox.backgroundColor = .white
+        
+        avaiLabel.translatesAutoresizingMaskIntoConstraints = false
+        avaiLabel.adjustsFontSizeToFitWidth = false
+        avaiLabel.font = .monospacedSystemFont(ofSize: 12, weight: .light)
+        avaiLabel.numberOfLines = 0
+        avaiLabel.textColor = .black
+                
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.adjustsFontSizeToFitWidth = false
+        locationLabel.font = .boldSystemFont(ofSize: 14)
+        locationLabel.numberOfLines = 0
+        locationLabel.textColor = .black
+        bottomBox.addSubview(locationLabel)
+        
+        avaiLabel.translatesAutoresizingMaskIntoConstraints = false
+        avaiLabel.adjustsFontSizeToFitWidth = false
+        avaiLabel.font = .systemFont(ofSize: 12)
+        avaiLabel.numberOfLines = 0
+        avaiLabel.textColor = .black
+        bottomBox.addSubview(avaiLabel)
+
+        
         bottomBar.addSubview(bottomBox)
+        
+//        bottomBar.layer.shadowPath = UIBezierPath(rect: bottomBar.bounds).cgPath
+        bottomBar.layer.shadowColor = UIColor.black.cgColor
+        bottomBar.layer.shadowOpacity = 0.1
+        bottomBar.layer.shadowOffset = .zero
+        bottomBar.layer.shadowRadius = 5
         
         contentView.addSubview(bottomBar)
         
@@ -79,6 +113,9 @@ class LotCollectionViewCell: UICollectionViewCell {
         let imageName: String = "parking_\(lot.location.rawValue)_\(color)"
         
         backgroundImageView.image = UIImage(named: imageName)
+        
+        locationLabel.text = lot.locationString
+        avaiLabel.text = "\(lot.availability) spot\(lot.availability > 0 ? "s" : "")"
     }
     
     func setupConstraints() {
@@ -107,6 +144,15 @@ class LotCollectionViewCell: UICollectionViewCell {
             bottomBox.leadingAnchor.constraint(equalTo: bottomBar.leadingAnchor, constant: labelPadding),
             bottomBox.trailingAnchor.constraint(equalTo: bottomBar.trailingAnchor, constant: -labelPadding),
             bottomBox.heightAnchor.constraint(equalToConstant: labelHeight),
+        ])
+        
+        NSLayoutConstraint.activate([
+            locationLabel.topAnchor.constraint(equalTo: bottomBox.topAnchor, constant: labelSpacing),
+            locationLabel.leadingAnchor.constraint(equalTo: bottomBox.leadingAnchor, constant: labelSpacing),
+        ])
+        NSLayoutConstraint.activate([
+            avaiLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: paddingLeft),
+            avaiLabel.leadingAnchor.constraint(equalTo: bottomBox.leadingAnchor, constant: labelSpacing),
         ])
     }
 }

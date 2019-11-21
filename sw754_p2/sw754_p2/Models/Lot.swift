@@ -17,11 +17,25 @@ enum Location: String {
 class Lot {
     let name: String
     let location: Location
+    let locationString: String
     let availability: Int
     
     init(name: String, location: Location, availability: Int) {
         self.name = name
         self.location = location
         self.availability = availability
+        self.locationString = Lot.locationToString(location: location)
+    }
+    
+    static func locationToString(location: Location) -> String {
+        switch location {
+        case .north:
+            return "North"
+        case .central:
+            return "Central"
+        case .west:
+            return "West"
+        }
+        
     }
 }

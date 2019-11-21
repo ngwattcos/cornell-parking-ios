@@ -9,6 +9,7 @@ import UIKit
 import Foundation
 
 class MainCoordinator: Coordinator {
+    weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator]
     var navigationController: UINavigationController!
     
@@ -19,6 +20,14 @@ class MainCoordinator: Coordinator {
     
     func start() {
         let vc = SelectLotViewController()
+        vc.coordinator = self
         navigationController.pushViewController(vc, animated: false)
+    }
+    
+    func displayParkingTypes(for lot: Lot) {
+        let vc = SelectParkingTypeViewController()
+        vc.lot = lot
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
     }
 }

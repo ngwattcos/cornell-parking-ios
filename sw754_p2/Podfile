@@ -8,5 +8,7 @@ target 'sw754_p2' do
   # Pods for sw754_p2
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.6'
+  pod 'SnapKit', '~> 5.0.0'
+  pod 'CHIPageControl/Aji'
 
 end

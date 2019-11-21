@@ -9,7 +9,8 @@
 import UIKit
 
 class SelectLotViewController: UIViewController {
-    
+    var coordinator: MainCoordinator?
+    var lot: Lot?
     var collectionView: UICollectionView!
     var background: UIView!
     var padding: CGFloat = 20
@@ -77,6 +78,11 @@ class SelectLotViewController: UIViewController {
         
         collectionView.reloadData()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+    }
 
 }
 
@@ -109,14 +115,8 @@ extension SelectLotViewController: UICollectionViewDelegateFlowLayout {
 
 extension SelectLotViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let person = persons[indexPath.row]
-//
-//        if (person.name == "Bill Gates") {
-//            persons[indexPath.row] = melinda
-//        } else {
-//            persons[indexPath.row] = bill
-//        }
-//
-//        collectionView.reloadData()
+        
+        let lot = lots[indexPath.row]
+        coordinator?.displayParkingTypes(for: lot)
     }
 }
