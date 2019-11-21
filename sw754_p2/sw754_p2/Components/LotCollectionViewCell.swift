@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class LotCollectionViewCell: UICollectionViewCell {
     var paddingLeft: CGFloat = 5

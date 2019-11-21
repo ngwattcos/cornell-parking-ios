@@ -17,6 +17,7 @@ class SelectLotViewController: UIViewController {
     var paddingSide: CGFloat = 20
     let headerHeight: CGFloat = 30
     
+    let refreshControl = UIRefreshControl()
     
     
     let lotCellReuseIdentifier = "lotCellReuseIdentifier"
@@ -32,6 +33,15 @@ class SelectLotViewController: UIViewController {
         
         title = "Select Parking Lot"
         
+       
+        setupCollectionView()
+        
+        
+        setupConstraints()
+        loadLots()
+    }
+    
+    func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = padding
@@ -45,16 +55,13 @@ class SelectLotViewController: UIViewController {
         collectionView.register(LotCollectionViewCell.self, forCellWithReuseIdentifier: lotCellReuseIdentifier)
         view.addSubview(collectionView)
         
-//        background = UIView()
-//        background.backgroundColor = .white
-//        background.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(background)
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refreshControl
+        } else {
+            collectionView.addSubview(refreshControl)
+        }
         
-//        title = "Select Parking Lot"
-        // Do any additional setup after loading the view.
-        
-        setupConstraints()
-        loadLots()
+        refreshControl.addTarget(self, action: #selector(loadLots), for: .valueChanged)
     }
     
 
@@ -67,16 +74,21 @@ class SelectLotViewController: UIViewController {
         ])
     }
     
-    func loadLots() {
+    @objc func loadLots() {
         NetworkManager.getLots({ lots in
             self.lots.removeAll()
             
             for lot in lots {
                 self.lots.append(lot)
             }
+            
+            DispatchQueue.main.async(execute: {
+                self.refreshControl.endRefreshing()
+                self.collectionView.reloadData()
+            })
         })
         
-        collectionView.reloadData()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
