@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class SelectLotViewController: UIViewController {
     var coordinator: MainCoordinator?
@@ -66,12 +67,9 @@ class SelectLotViewController: UIViewController {
     
 
     func setupConstraints() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: paddingSide),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingSide),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
+        collectionView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(view!).inset(UIEdgeInsets(top: 0, left: paddingSide, bottom: 0, right: paddingSide))
+        }
     }
     
     @objc func loadLots() {

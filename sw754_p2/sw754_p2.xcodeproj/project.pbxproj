@@ -12,6 +12,8 @@
 		900D11F52383CCA500E7E2EB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D11F42383CCA500E7E2EB /* NetworkManager.swift */; };
 		900D11F72384EC0200E7E2EB /* LotCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D11F62384EC0200E7E2EB /* LotCollectionViewCell.swift */; };
 		900D11F92385F3EF00E7E2EB /* SelectParkingTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D11F82385F3EE00E7E2EB /* SelectParkingTypeViewController.swift */; };
+		901DFB4A23879FBB00F0FF52 /* ConfirmLotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901DFB4923879FBB00F0FF52 /* ConfirmLotViewController.swift */; };
+		901DFB4C2387A2B700F0FF52 /* SelectParkingTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901DFB4B2387A2B700F0FF52 /* SelectParkingTypeView.swift */; };
 		9081FC5B2383CA3300332E22 /* SelectLotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC5A2383CA3300332E22 /* SelectLotViewController.swift */; };
 		9081FC5F2383CA7300332E22 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC5E2383CA7300332E22 /* Coordinator.swift */; };
 		9081FC612383CA8100332E22 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC602383CA8100332E22 /* MainCoordinator.swift */; };
@@ -29,6 +31,8 @@
 		900D11F42383CCA500E7E2EB /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		900D11F62384EC0200E7E2EB /* LotCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotCollectionViewCell.swift; sourceTree = "<group>"; };
 		900D11F82385F3EE00E7E2EB /* SelectParkingTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectParkingTypeViewController.swift; sourceTree = "<group>"; };
+		901DFB4923879FBB00F0FF52 /* ConfirmLotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLotViewController.swift; sourceTree = "<group>"; };
+		901DFB4B2387A2B700F0FF52 /* SelectParkingTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectParkingTypeView.swift; sourceTree = "<group>"; };
 		9081FC5A2383CA3300332E22 /* SelectLotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLotViewController.swift; sourceTree = "<group>"; };
 		9081FC5E2383CA7300332E22 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		9081FC602383CA8100332E22 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 			children = (
 				9081FC5A2383CA3300332E22 /* SelectLotViewController.swift */,
 				900D11F82385F3EE00E7E2EB /* SelectParkingTypeViewController.swift */,
+				901DFB4923879FBB00F0FF52 /* ConfirmLotViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -111,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				900D11F62384EC0200E7E2EB /* LotCollectionViewCell.swift */,
+				901DFB4B2387A2B700F0FF52 /* SelectParkingTypeView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -279,12 +285,14 @@
 				9081FC612383CA8100332E22 /* MainCoordinator.swift in Sources */,
 				90C8A2A3234529A700433A5B /* AppDelegate.swift in Sources */,
 				9081FC642383CBA900332E22 /* Lot.swift in Sources */,
+				901DFB4A23879FBB00F0FF52 /* ConfirmLotViewController.swift in Sources */,
 				900D11F52383CCA500E7E2EB /* NetworkManager.swift in Sources */,
 				9081FC5F2383CA7300332E22 /* Coordinator.swift in Sources */,
 				9081FC5B2383CA3300332E22 /* SelectLotViewController.swift in Sources */,
 				900D11F72384EC0200E7E2EB /* LotCollectionViewCell.swift in Sources */,
 				90C8A2B7234A763800433A5B /* MainViewController.swift in Sources */,
 				900D11F92385F3EF00E7E2EB /* SelectParkingTypeViewController.swift in Sources */,
+				901DFB4C2387A2B700F0FF52 /* SelectParkingTypeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
