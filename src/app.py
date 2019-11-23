@@ -1,110 +1,94 @@
 import json
-import os
-from db import db, Course, Assignment, User
+from db import db, Building, Level, Spot
 from flask import Flask, request
 
-db_filename = "todo.db"
+db_filename = "parking.db"
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % db_filename
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % db_filename # type of db we're using: sqlite or postgres
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 db.init_app(app)
+
 with app.app_context():
-    db.create_all()
+	db.create_all() #create all tables for us
+
+@app.route('/') #take in a function
+
+#Create a building
+@app.route('/api/building/', methods=['POST'])
+def create_building():
+	post_body = json.loads(request.data)
+	shortName = post_body.get('shortName','')
+	longName = post_body.get('longName','')
+	building = Building(
+			shortName = shortName,
+			longName = longName
+		)
+	db.session.add(building)
+	db.session.commit()
+	return json.dumps( {'success': True, 'data': building.serialize() } ), 200
+
+#Create a level
+@app.route('/api/<int:buildingID>/level', methods=['POST'])
+def create_level(buildingID):
+	building = Building.query.filter_by(id = buildingID).first()
+	if not building:
+		return json.dumps( {'success': False, 'error':'building not found!' } ), 404
+	post_body = json.loads(request.data)
+	level = Level(
+		levelName = post_body.get('levelName', ''),
+		accessible = post_body.get('accessible', ''),
+		green = post_body.get('green', ''),
+		general = post_body.get('general', '')
+	)
+	building.levels.append(level)
+	db.session.add(level)
+	db.session.commit()
+	return json.dumps( {'success': True, 'data': level.serialize()} ), 200
 
 
-@app.route('/')
-def hello():
-    return os.environ['GOOGLE_CLIENT_ID'], 200
+#Create a spot
+@app.route('/api/building/<int:levelID>/spot/', methods=['POST'])
+def create_spot(levelID):
+	level = Level.query.filter_by(id = levelID).first()
+	if not level:
+		return json.dumps( {'success': False, 'error':'level not found!' } ), 404
+	post_body = json.loads(request.data)
+	spot = Spot(
+		parkType = post_body.get('parkType', ''),
+		emptyFlag = post_body.get('emptyFlag', '')
+	)
+	level.spots.append(spot)
+	db.session.add(spot)
+	db.session.commit()
+	return json.dumps( {'success': True, 'data': spot.serialize()} ), 200
 
-@app.route('/api/courses/')
-def get_courses():
-    courses = Course.query.all()
-    res = {'success': True, 'data': [t.serialize() for t in courses]}
+#get all buildings
+@app.route('/api/buildings/')
+def get_building():
+    buildings = Building.query.all()
+    res = {'success': True, 'data': [t.serialize() for t in buildings]}
     return json.dumps(res), 200
 
-@app.route('/api/courses/', methods=['POST'])
-def create_course():
-    post_body = json.loads(request.data)
-    code = post_body.get('code', '')
-    name = post_body.get('name', '')
-    course = Course(
-        code = code,
-        name = name
-    )
-    db.session.add(course)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': course.serialize()}), 201
+#get a spot
+@app.route('/api/xxx/<int:spotID>/', methods=['GET'])
+def get_a_spot(spotID):
+	spot = Spot.query.filter_by(id=spotID).first()
+	if not spot:
+		return json.dumps( {'success':False, 'error': 'spot not found!' } ) , 404
+	return json.dumps( {'success':True, 'data': spot.serialize() } ) , 200
 
-@app.route('/api/course/<int:course_id>/')
-def get_course(course_id):
-    course = Course.query.filter_by(id = course_id).first()
-    if not course:
-        return json.dumps({'success': False, 'error': 'Course not found!'}), 404
-    return json.dumps({'success': True, 'data': course.serialize()}), 200
+#Delete a spot
+@app.route('/api/level/<int:spotID>/', methods=['DELETE'])
+def delete_spot(spotID):
+	spot = Spot.query.filter_by(id = spotID).first()
+	if not spot:
+		return json.dumps( {'success': False, 'error':'spot not found!' } ), 404
+	db.session.delete(spot)
+	db.session.commit()
+	return json.dumps( {'success': True, 'data': spot.serialize()} ), 200
 
-@app.route('/api/users/', methods=['POST'])
-def create_user():
-    post_body = json.loads(request.data)
-    name = post_body.get('name', '')
-    netid = post_body.get('netid', '')
-    user = User(
-        name = name,
-        netid = netid
-    )
-    db.session.add(user)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': user.serialize()}), 201
-
-@app.route('/api/user/<int:user_id>/')
-def get_user(user_id):
-    user = User.query.filter_by(id = user_id).first()
-    if not user:
-        return json.dumps({'success': False, 'error': 'Course not found!'}), 404
-    return json.dumps({'success': True, 'data': user.serialize()}), 200
-
-@app.route('/api/course/<int:course_id>/add/', methods = ['POST'])
-def enroll_course(course_id):
-    post_body = json.loads(request.data)
-    user_type = post_body.get('type', '')
-    user_id = post_body.get('user_id', '')
-    user = User.query.filter_by(id = user_id).first()
-    course = Course.query.filter_by(id = course_id).first()
-    if not user:
-        return json.dumps({'success': False, 'error': 'Student not found!'}), 404       
-    if not course:
-        return json.dumps({'success': False, 'error': 'Course not found!'}), 404       
-        
-    if user_type.equals('student'):
-        course.students.append(user)
-    elif user_type.equals('instructor'):
-        course.instructors.append(user)
-    else:
-        return json.dumps({'success': False, 'error': 'Wrong user type!'}), 404
-    db.session.add(user)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': course.serialize()}), 201
-
-
-@app.route('/api/course/<int:course_id>/assignment/', methods=['POST'])
-def create_assignment(course_id):
-    course = Course.query.filter_by(id = course_id).first()
-    if not course:
-        return json.dumps({'success': False, 'error': 'Course not found!'}), 404       
-    post_body = json.loads(request.data)
-    assignment = Assignment (
-              title = post_body.get('title', ''),
-              due_date = post_body.get('due_date', ''),
-              course_id = course_id
-            )
-    course.assignments.append(assignment)
-    db.session.add(assignment)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': assignment.serialize()}), 201
-
-
-    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

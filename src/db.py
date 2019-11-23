@@ -1,78 +1,75 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov 22 16:41:55 2019
+
+@author: yugua
+"""
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-association_table_stu = db.Table('assiciation_stu', db.Model.metadata,
-                             db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
-                             db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-                             )
-
-association_table_ins = db.Table('assiciation_ins', db.Model.metadata,
-                             db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
-                             db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-                             )
-
-class Course(db.Model):
-    __tablename__ = 'course'
+class Building(db.Model):
+    __tablename__ = 'building'
     id = db.Column(db.Integer, primary_key = True)
-    code = db.Column(db.String, nullable = False)
-    name = db.Column(db.String, nullable = False)
-    assignments = db.relationship('Assignment', cascade = 'delete')
-    students = db.relationship('User', secondary = association_table_stu, back_populates = 'courses_stu')
-    instructors = db.relationship('User', secondary = association_table_ins, back_populates = 'courses_ins')
+    shortName = db.Column(db.String, nullable = False)
+    longName = db.Column(db.String, nullable = False)
+    levels = db.relationship('Level', cascade = 'delete')
     
     def __init__(self, **kwargs):
-        self.code = kwargs.get('code', '')
-        self.name = kwargs.get('name', '')
-        self.assignments = []
-        self.instructors = []
-        self.students = []
+        self.shortName = kwargs.get('shortName', '')
+        self.longName = kwargs.get('longName', '')
+        self.levels = []
         
     def serialize(self):
         return {
                 'id': self.id,
-                'code': self.code,
-                'name': self.name,
-                'assignments': [ass.serialize() for ass in self.assignments],
-                'instructors': [ins.serialize() for ins in self.instructors],
-                'students': [stu.serialize() for stu in self.students]
+                'shortName': self.shortName,
+                'levels': [level.serialize() for level in self.levels]
                 }
         
-class Assignment(db.Model):
-    __tablename__ = 'assignment'
+class Level(db.Model):
+    __tablename__ = 'level'
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String, nullable = False)
-    due_date = db.Column(db.Integer, nullable = False)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable = False)
-    
+    levelName = db.Column(db.String, nullable = False)
+    accessible = db.Column(db.Integer, nullable = False)
+    green = db.Column(db.Integer, nullable = False)
+    general = db.Column(db.Integer, nullable = False)
+    building = db.Column(db.Integer, db.ForeignKey('building.id'), nullable = False)
+    spots = db.relationship('Spot', cascade = 'delete')
+        
     def __init__(self, **kwargs):
-        self.title = kwargs.get('title', '')
-        self.due_date = kwargs.get('due_date', '')
+        self.levelName = kwargs.get('levelName', '')
+        self.accessible = kwargs.get('accessible', '')
+        self.green = kwargs.get('green', '')
+        self.general = kwargs.get('general', '')
+        self.spots = []
         
     def serialize(self):
         return {
                 'id': self.id,
-                'title': self.title,
-                'due_date': self.due_date,
+                'levelName': self.levelName,
+                'green': self.green,
+                'general': self.general,
+                'accessible': self.accessible,
+                'total': self.general + self.green + self.accessible,
+                'spots': [spot.serialize() for spot in self.spots]
                 }
-
-class User(db.Model):
-    __tablename__ = 'user'
+        
+class Spot(db.Model):
+    __tablename__ = 'spot'
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String, nullable = False)
-    netid = db.Column(db.String, nullable = False)
-    courses_stu = db.relationship('Course', secondary = association_table_stu, back_populates = 'students')
-    courses_ins = db.relationship('Course', secondary = association_table_ins, back_populates = 'instructors')
-
+    parkType = db.Column(db.String, nullable = False)
+    emptyFlag = db.Column(db.Integer, nullable = False)
+    level_id = db.Column(db.Integer, db.ForeignKey('level.id'), nullable = False)
     
     def __init__(self, **kwargs):
-        self.name = kwargs.get('name', '')
-        self.netid = kwargs.get('netid', '')
+        self.parkType = kwargs.get('parkType', '')
+        self.emptyFlag = kwargs.get('emptyFlag', '')
         
     def serialize(self):
         return {
                 'id': self.id,
-                'name': self.name,
-                'netid': self.netid,
-                'courses': [stu.serialize() for stu in self.courses_stu] + [ins.serialize() for ins in self.courses_ins]
-                }    
+                'parkType': self.parkType,
+                'emptyFlag': self.emptyFlag
+                }
