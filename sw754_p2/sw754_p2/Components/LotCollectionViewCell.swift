@@ -49,6 +49,7 @@ class LotCollectionViewCell: UICollectionViewCell {
         backgroundImageView.layer.masksToBounds = true
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.backgroundColor = .systemYellow
+        backgroundImageView.layer.cornerRadius = 10
         
             
         contentView.addSubview(backgroundImageView)

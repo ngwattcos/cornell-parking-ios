@@ -14,12 +14,6 @@ enum Location: String {
     case west = "right"
 }
 
-enum ParkingType: String {
-    case general = "general"
-    case accessible = "accessible"
-    case green = "green"
-}
-
 class Lot {
     let name: String
     let location: Location
