@@ -15,7 +15,9 @@ Some screenshots of your app (highlight important features)
 A short description of your app (its purpose and features)
 - pull-down-to-refresh on list of parking lots
 
-A list of how your app addresses each of the requirements (iOS / Backend)
+## A list of how your app addresses each of the requirements (iOS / Backend)
+- implemented a UICollectionView on the main page
+- will implement a UICollectionView to display available parking spots, floors/levels, etc.
 
 ## Anything else
 Anything else you want your grader to know
