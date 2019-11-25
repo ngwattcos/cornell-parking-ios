@@ -19,38 +19,126 @@ with app.app_context():
 #Create a building
 @app.route('/api/building/', methods=['POST'])
 def create_building():
-	post_body = json.loads(request.data)
-	shortName = post_body.get('shortName','')
-	longName = post_body.get('longName','')
-	building = Building(
+    post_body = json.loads(request.data)
+    shortName = post_body.get('shortName','')
+    longName = post_body.get('longName','')
+    building = Building(
 			shortName = shortName,
 			longName = longName
 		)
-	db.session.add(building)
-	db.session.commit()
-	return json.dumps( {'success': True, 'data': building.serialize() } ), 200
+    db.session.add(building)
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': building.serialize() } ), 200
+
+#Get all buildings
+@app.route('/api/buildings/')
+def get_building():
+    buildings = Building.query.all()
+    res = {'success': True, 'data': [t.serialize() for t in buildings]}
+    return json.dumps(res), 200
+
+#Get a building
+@app.route('/api/building/<int:buildingID>/', methods=['GET'])
+def get_a_building(buildingID):
+    building = Building.query.filter_by(id=buildingID).first()
+    if not building:
+        return json.dumps( {'success':False, 'error': 'building not found!' } ) , 404
+    
+    aBuilding = building.serialize()
+    ans = {}
+    ans['id'] = aBuilding['id']
+    ans['longName'] = aBuilding['longName']
+    ans['accessible'] = 0
+    ans['green'] = 0
+    ans['general'] = 0
+    for level in aBuilding['levels']:
+            ans['accessible'] += level['accessibleEmpty']
+            ans['green'] += level['greenEmpty']
+            ans['general'] += level['generalEmpty']
+    return json.dumps( {'success':True, 'data': ans } ) , 200
+# =============================================================================
+#     return json.dumps( {'success':True, 'data': building.serialize() } ) , 200
+# =============================================================================
+
+#Delete a building
+@app.route('/api/level/<int:buildingID>/', methods=['DELETE'])
+def delete_building(spotID):
+    building = Building.query.filter_by(id = spotID).first()
+    if not building:
+        return json.dumps( {'success': False, 'error':'building not found!' } ), 404
+    db.session.delete(building)
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': building.serialize()} ), 200
 
 #Create a level
-@app.route('/api/<int:buildingID>/level', methods=['POST'])
+@app.route('/api/building/<int:buildingID>/level/', methods=['POST'])
 def create_level(buildingID):
-	building = Building.query.filter_by(id = buildingID).first()
-	if not building:
-		return json.dumps( {'success': False, 'error':'building not found!' } ), 404
-	post_body = json.loads(request.data)
-	level = Level(
+    building = Building.query.filter_by(id = buildingID).first()
+    if not building:
+        return json.dumps( {'success': False, 'error':'building not found!' } ), 404
+    post_body = json.loads(request.data)
+    level = Level(
 		levelName = post_body.get('levelName', ''),
 		accessible = post_body.get('accessible', ''),
 		green = post_body.get('green', ''),
 		general = post_body.get('general', '')
 	)
-	building.levels.append(level)
-	db.session.add(level)
-	db.session.commit()
-	return json.dumps( {'success': True, 'data': level.serialize()} ), 200
+    building.levels.append(level)
+    db.session.add(level)
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': level.serialize()} ), 200
+    
+#Delete a level
+@app.route('/api/level/<int:levelID>/', methods=['DELETE'])
+def delete_level(levelID):
+    level = Level.query.filter_by(id = levelID).first()
+    if not level:
+        return json.dumps( {'success': False, 'error':'level not found!' } ), 404
+    db.session.delete(level)
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': level.serialize()} ), 200
 
+#Enter building by buildingID and Parking Type, showing empty slotID & floor plan
+@app.route('/api/building/<int:buildingID>/parkType/<int:parkTypeInt>/', methods=['GET'])
+def enter_building(buildingID, parkTypeInt):
+    building = Building.query.filter_by(id=buildingID).first()
+    if not building:
+        return json.dumps( {'success':False, 'error': 'building not found!' } ) , 404
+    aBuilding = building.serialize()
+    ans = {}
+    levelList = []
+    firstFlag = False
+    spotAns = {}
+    spotSAns = []
+    if parkTypeInt == 0:
+        parkType = 'accessible'
+    elif parkTypeInt == 1:
+        parkType = 'green'
+    else:
+        parkType = 'general'
+    parkTypeEmpty = parkType + 'Empty'
+    for level in aBuilding['levels']:
+        if level[parkTypeEmpty] > 0:
+            levelList.append(level['levelName'])
+            if not firstFlag:
+                spots = level['spots']
+                firstFlag = True
+                for spot in spots:
+                    spotSAns.append(spot)
+                    if spot['parkType'] == parkType and spot['emptyFlag'] == 1:
+                        spotAns['id'] = spot['id']
+                        spotAns['name'] = spot['name']
+    if len(spotAns) == 0:
+        return json.dumps( {'success':False, 'error': 'building is full!' } ) , 404
+    ans['spotid'] = spotAns['id']
+    ans['spotName'] = spotAns['name']
+    ans['levelName'] = levelList[0]
+    ans['levels'] = levelList
+    ans['spots'] = spotSAns
+    return json.dumps( {'success':True, 'data': ans } ) , 200
 
 #Create a spot
-@app.route('/api/building/<int:levelID>/spot/', methods=['POST'])
+@app.route('/api/level/<int:levelID>/spot/', methods=['POST'])
 def create_spot(levelID):
 	level = Level.query.filter_by(id = levelID).first()
 	if not level:
@@ -58,19 +146,15 @@ def create_spot(levelID):
 	post_body = json.loads(request.data)
 	spot = Spot(
 		parkType = post_body.get('parkType', ''),
-		emptyFlag = post_body.get('emptyFlag', '')
+		emptyFlag = post_body.get('emptyFlag', ''),
+        name = post_body.get('name', '')
 	)
 	level.spots.append(spot)
 	db.session.add(spot)
 	db.session.commit()
 	return json.dumps( {'success': True, 'data': spot.serialize()} ), 200
 
-#get all buildings
-@app.route('/api/buildings/')
-def get_building():
-    buildings = Building.query.all()
-    res = {'success': True, 'data': [t.serialize() for t in buildings]}
-    return json.dumps(res), 200
+
 
 #get a spot
 @app.route('/api/xxx/<int:spotID>/', methods=['GET'])
@@ -81,7 +165,7 @@ def get_a_spot(spotID):
 	return json.dumps( {'success':True, 'data': spot.serialize() } ) , 200
 
 #Delete a spot
-@app.route('/api/level/<int:spotID>/', methods=['DELETE'])
+@app.route('/api/spot/<int:spotID>/', methods=['DELETE'])
 def delete_spot(spotID):
 	spot = Spot.query.filter_by(id = spotID).first()
 	if not spot:

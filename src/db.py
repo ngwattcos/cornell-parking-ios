@@ -4,7 +4,7 @@ Created on Fri Nov 22 16:41:55 2019
 
 @author: yugua
 """
-
+import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -25,9 +25,10 @@ class Building(db.Model):
         return {
                 'id': self.id,
                 'shortName': self.shortName,
+                'longName': self.longName,
                 'levels': [level.serialize() for level in self.levels]
                 }
-        
+ 
 class Level(db.Model):
     __tablename__ = 'level'
     id = db.Column(db.Integer, primary_key = True)
@@ -43,27 +44,50 @@ class Level(db.Model):
         self.accessible = kwargs.get('accessible', '')
         self.green = kwargs.get('green', '')
         self.general = kwargs.get('general', '')
-        self.spots = []
-        
+        self.spots = []        
+
     def serialize(self):
+        count = 0
+        countAcc = 0
+        countGre = 0
+        countGen = 0
+        for spot in self.spots:
+            aspot = spot.serialize()
+            if aspot['emptyFlag'] == 1:
+                if aspot['parkType'] == 'accessible':
+                    countAcc += 1
+                    count += 1
+                elif aspot['parkType'] == 'green':
+                    countGre += 1
+                    count += 1
+                else:
+                    countGen += 1
+                    count +=1
+            
         return {
                 'id': self.id,
                 'levelName': self.levelName,
                 'green': self.green,
+                'greenEmpty': countGre,
                 'general': self.general,
+                'generalEmpty': countGen,
                 'accessible': self.accessible,
+                'accessibleEmpty': countAcc,
                 'total': self.general + self.green + self.accessible,
+                'totalEmpty': count,
                 'spots': [spot.serialize() for spot in self.spots]
                 }
-        
+
 class Spot(db.Model):
     __tablename__ = 'spot'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)    
+    name = db.Column(db.String, nullable = False)
     parkType = db.Column(db.String, nullable = False)
     emptyFlag = db.Column(db.Integer, nullable = False)
     level_id = db.Column(db.Integer, db.ForeignKey('level.id'), nullable = False)
-    
+
     def __init__(self, **kwargs):
+        self.name = kwargs.get('name', '')
         self.parkType = kwargs.get('parkType', '')
         self.emptyFlag = kwargs.get('emptyFlag', '')
         
@@ -71,5 +95,6 @@ class Spot(db.Model):
         return {
                 'id': self.id,
                 'parkType': self.parkType,
-                'emptyFlag': self.emptyFlag
+                'emptyFlag': self.emptyFlag,        
+                'name': self.name
                 }
