@@ -32,9 +32,21 @@ def create_building():
 
 #Get all buildings
 @app.route('/api/buildings/')
-def get_building():
+def get_buildings():
     buildings = Building.query.all()
-    res = {'success': True, 'data': [t.serialize() for t in buildings]}
+    ans = []
+    for building in buildings:
+        aBuilding = building.serialize()
+        buildingInfo = {}
+        buildingInfo['id'] = aBuilding['id']
+        buildingInfo['longName'] = aBuilding['longName']
+        buildingInfo['total'] = 0
+        buildingInfo['totalEmpty'] = 0
+        for level in aBuilding['levels']:
+                buildingInfo['total'] += level['total']
+                buildingInfo['totalEmpty'] += level['totalEmpty']
+        ans.append(buildingInfo.copy())
+    res = {'success': True, 'data': ans}
     return json.dumps(res), 200
 
 #Get a building
@@ -49,13 +61,24 @@ def get_a_building(buildingID):
     ans['id'] = aBuilding['id']
     ans['longName'] = aBuilding['longName']
     ans['accessible'] = 0
+    ans['accessibleEmpty'] = 0
     ans['green'] = 0
+    ans['greenEmpty'] = 0
     ans['general'] = 0
+    ans['generalEmpty'] = 0
+    ans['total'] = 0
+    ans['totalEmpty'] = 0
     for level in aBuilding['levels']:
-            ans['accessible'] += level['accessibleEmpty']
-            ans['green'] += level['greenEmpty']
-            ans['general'] += level['generalEmpty']
-    return json.dumps( {'success':True, 'data': ans } ) , 200
+            ans['accessible'] += level['accessible']
+            ans['accessibleEmpty'] += level['accessibleEmpty']
+            ans['green'] += level['green']
+            ans['greenEmpty'] += level['greenEmpty']
+            ans['general'] += level['general']
+            ans['generalEmpty'] += level['generalEmpty']
+            ans['total'] += level['total']
+            ans['totalEmpty'] += level['totalEmpty']
+        
+    return json.dumps( {'success':True, 'data':ans} ) , 200
 # =============================================================================
 #     return json.dumps( {'success':True, 'data': building.serialize() } ) , 200
 # =============================================================================
