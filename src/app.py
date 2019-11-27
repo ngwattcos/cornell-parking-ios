@@ -46,8 +46,9 @@ def get_buildings():
                 buildingInfo['total'] += level['total']
                 buildingInfo['totalEmpty'] += level['totalEmpty']
         ans.append(buildingInfo.copy())
-    res = {'success': True, 'data': ans}
-    return json.dumps(res), 200
+    # res = {'success': True, 'data': building.}
+    # return json.dumps(res), 200
+    return json.dumps( {'success':True, 'data': building.serialize() } ) , 200
 
 #Get a building
 @app.route('/api/building/<int:buildingID>/', methods=['GET'])
@@ -142,7 +143,7 @@ def enter_building(buildingID, parkTypeInt):
     parkTypeEmpty = parkType + 'Empty'
     for level in aBuilding['levels']:
         if level[parkTypeEmpty] > 0:
-            levelList.append(level['levelName'])
+            levelList.append({'Level Name': level['levelName'], 'Level ID': level['id']})
             if not firstFlag:
                 spots = level['spots']
                 firstFlag = True
@@ -170,7 +171,8 @@ def create_spot(levelID):
 	spot = Spot(
 		parkType = post_body.get('parkType', ''),
 		emptyFlag = post_body.get('emptyFlag', ''),
-        name = post_body.get('name', '')
+        name = post_body.get('name', ''),
+        date_time = post_body.get('date_time', '')
 	)
 	level.spots.append(spot)
 	db.session.add(spot)
@@ -196,6 +198,32 @@ def delete_spot(spotID):
 	db.session.delete(spot)
 	db.session.commit()
 	return json.dumps( {'success': True, 'data': spot.serialize()} ), 200
+
+#Park car given spot id
+@app.route('/api/park/<int:spotID>/', methods=['POST'])
+def park_given_spot_id(spotID):
+    spot = Spot.query.filter_by(id = spotID).first()
+    if not spot:
+        return json.dumps( {'success': False, 'error':'spot not found!' } ), 404
+    if spot.emptyFlag==0:
+        return json.dumps( {'success': False, 'error':'spot already taken!' } ), 404
+    
+    spot.emptyFlag = 0
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': spot.serialize()} ), 201
+
+#Leave car given spot id
+@app.route('/api/leave/<int:spotID>/', methods=['POST'])
+def leave_given_spot_id(spotID):
+    spot = Spot.query.filter_by(id = spotID).first()
+    if not spot:
+        return json.dumps( {'success': False, 'error':'spot not found!' } ), 404
+    if spot.emptyFlag==1:
+        return json.dumps( {'success': False, 'error':'Not your spot!' } ), 404
+    
+    spot.emptyFlag = 1
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': spot.serialize()} ), 201
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
