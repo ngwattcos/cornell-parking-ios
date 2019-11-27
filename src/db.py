@@ -4,8 +4,9 @@ Created on Fri Nov 22 16:41:55 2019
 
 @author: yugua
 """
-import datetime
+import json
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import DateTime
 
 db = SQLAlchemy()
 
@@ -85,16 +86,28 @@ class Spot(db.Model):
     parkType = db.Column(db.String, nullable = False)
     emptyFlag = db.Column(db.Integer, nullable = False)
     level_id = db.Column(db.Integer, db.ForeignKey('level.id'), nullable = False)
+    start_time = db.Column(db.DateTime, nullable = True)
+    end_time = db.Column(db.DateTime, nullable = True)
 
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', '')
         self.parkType = kwargs.get('parkType', '')
         self.emptyFlag = kwargs.get('emptyFlag', '')
-        
+
     def serialize(self):
+        starttime = {}
+        starttime['stringTime'] = self.start_time
+        endtime = {}
+        endtime['endTime'] = self.end_time
+        startTimeStr = json.dumps(starttime, indent=4, sort_keys=True, default=str)
+        startTimeStr = startTimeStr[21:47]
+        endTimeStr = json.dumps(endtime, indent=4, sort_keys=True, default=str)
+        endTimeStr = endTimeStr[18:44]
         return {
                 'id': self.id,
                 'parkType': self.parkType,
                 'emptyFlag': self.emptyFlag,        
-                'name': self.name
+                'name': self.name,
+                'startTime': startTimeStr,
+                'endTime': endTimeStr
                 }

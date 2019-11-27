@@ -1,6 +1,7 @@
 import json
 from db import db, Building, Level, Spot
 from flask import Flask, request
+from datetime import datetime
 
 db_filename = "parking.db"
 app = Flask(__name__)
@@ -15,6 +16,9 @@ with app.app_context():
 	db.create_all() #create all tables for us
 
 @app.route('/') #take in a function
+def god():
+    buildings = Building.query.all()
+    return json.dumps( {'success':True, 'data': [building.serialize() for building in buildings] } ) , 200
 
 #Create a building
 @app.route('/api/building/', methods=['POST'])
@@ -79,9 +83,6 @@ def get_a_building(buildingID):
             ans['totalEmpty'] += level['totalEmpty']
         
     return json.dumps( {'success':True, 'data':ans} ) , 200
-# =============================================================================
-#     return json.dumps( {'success':True, 'data': building.serialize() } ) , 200
-# =============================================================================
 
 #Delete a building
 @app.route('/api/level/<int:buildingID>/', methods=['DELETE'])
@@ -141,8 +142,8 @@ def enter_building(buildingID, parkTypeInt):
         parkType = 'general'
     parkTypeEmpty = parkType + 'Empty'
     for level in aBuilding['levels']:
-        if level[parkTypeEmpty] > 0:
-            levelList.append(level['levelName'])
+        if level[parkTypeEmpty] > 0 or level['generalEmpty'] > 0:
+            levelList.append({'Level Name': level['levelName'], 'Level ID': level['id']})
             if not firstFlag:
                 spots = level['spots']
                 firstFlag = True
@@ -151,6 +152,10 @@ def enter_building(buildingID, parkTypeInt):
                     if spot['parkType'] == parkType and spot['emptyFlag'] == 1:
                         spotAns['id'] = spot['id']
                         spotAns['name'] = spot['name']
+                    elif spot['parkType'] == 'general' and spot['emptyFlag'] == 1:
+                        spotAns['id'] = spot['id']
+                        spotAns['name'] = spot['name']
+                        
     if len(spotAns) == 0:
         return json.dumps( {'success':False, 'error': 'building is full!' } ) , 404
     ans['spotid'] = spotAns['id']
@@ -196,6 +201,47 @@ def delete_spot(spotID):
 	db.session.delete(spot)
 	db.session.commit()
 	return json.dumps( {'success': True, 'data': spot.serialize()} ), 200
+
+#Park car given spot id
+@app.route('/api/park/<int:spotID>/', methods=['POST'])
+def park_given_spot_id(spotID):
+    spot = Spot.query.filter_by(id = spotID).first()
+    if not spot:
+        return json.dumps( {'success': False, 'error':'spot not found!' } ), 404
+    if spot.emptyFlag==0:
+        return json.dumps( {'success': False, 'error':'spot already taken!' } ), 404
+    
+    spot.emptyFlag = 0
+    
+    spot.start_time = datetime.utcnow()
+    
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': spot.serialize()} ), 201
+
+#Leave car given spot id
+@app.route('/api/leave/<int:spotID>/', methods=['POST'])
+def leave_given_spot_id(spotID):
+    spot = Spot.query.filter_by(id = spotID).first()
+    if not spot:
+        return json.dumps( {'success': False, 'error':'spot not found!' } ), 404
+    if spot.emptyFlag==1:
+        return json.dumps( {'success': False, 'error':'Not your spot!' } ), 404
+    
+    spot.emptyFlag = 1
+    
+    spot.end_time = datetime.utcnow()
+    
+    ans = spot.serialize()
+    if spot.parkType == 'accessible':
+        charge = 0
+    else:
+        duration = spot.end_time - spot.start_time
+        seconds = duration.total_seconds()
+        charge =  seconds * 0.003
+    ans['charge'] = charge
+    
+    db.session.commit()
+    return json.dumps( {'success': True, 'data': ans} ), 201
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
