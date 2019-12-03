@@ -31,7 +31,7 @@ for building in range(BUILDING):
 			accessible_index = accessible + 1
 			ACCESSIBLE_BODY = {
 			  'parkType': 'accessible',
-			  'name': 'Accessible' + str(accessible_index + 1),
+			  'name': 'Accessible' + str(accessible_index),
 			  'emptyFlag': 1
 			}
 			requests.post(LOCAL_URL + '/api/level/' + str(level_index) + '/spot/', data=json.dumps(ACCESSIBLE_BODY))
