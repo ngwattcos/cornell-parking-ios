@@ -132,8 +132,7 @@ def enter_building(buildingID, parkTypeInt):
     ans = {}
     levelList = []
     firstFlag = False
-    spotAns = {}
-    spotSAns = []
+    freeSpots = []
     if parkTypeInt == 0:
         parkType = 'accessible'
     elif parkTypeInt == 1:
@@ -148,21 +147,49 @@ def enter_building(buildingID, parkTypeInt):
                 spots = level['spots']
                 firstFlag = True
                 for spot in spots:
-                    spotSAns.append(spot)
                     if spot['parkType'] == parkType and spot['emptyFlag'] == 1:
-                        spotAns['id'] = spot['id']
-                        spotAns['name'] = spot['name']
+                        freeSpots.append({'spotid': spot['id'], 'spotName': spot['name']})
                     elif spot['parkType'] == 'general' and spot['emptyFlag'] == 1:
-                        spotAns['id'] = spot['id']
-                        spotAns['name'] = spot['name']
+                        freeSpots.append({'spotid': spot['id'], 'spotName': spot['name']})
                         
-    if len(spotAns) == 0:
-        return json.dumps( {'success':False, 'error': 'building is full!' } ) , 404
-    ans['spotid'] = spotAns['id']
-    ans['spotName'] = spotAns['name']
+    if len(freeSpots) == 0:
+        return json.dumps( {'success':False, 'error': 'No compatible spots!' } ) , 404
+    ans['spotid'] = freeSpots[0]['spotid']
+    ans['spotName'] = freeSpots[0]['spotName']
     ans['levelName'] = levelList[0]
     ans['levels'] = levelList
-    ans['spots'] = spotSAns
+    ans['spots'] = spots
+    return json.dumps( {'success':True, 'data': ans } ) , 200
+
+#Enter level by levelID and Parking Type, showing empty slotID on that level
+@app.route('/api/level/<int:levelID>/parkType/<int:parkTypeInt>/', methods=['GET'])
+def enter_level(levelID, parkTypeInt):
+    level = Level.query.filter_by(id=levelID).first()
+    if not level:
+        return json.dumps( {'success':False, 'error': 'level not found!' } ) , 404
+    aLevel = level.serialize()
+    ans = {}
+    freeSpots = []
+    if parkTypeInt == 0:
+        parkType = 'accessible'
+    elif parkTypeInt == 1:
+        parkType = 'green'
+    else:
+        parkType = 'general'
+    parkTypeEmpty = parkType + 'Empty'
+    if aLevel[parkTypeEmpty] > 0 or aLevel['generalEmpty'] > 0:
+        spots = aLevel['spots']
+        for spot in spots:
+            if spot['parkType'] == parkType and spot['emptyFlag'] == 1:
+                freeSpots.append({'spotid': spot['id'], 'spotName': spot['name']})
+            elif spot['parkType'] == 'general' and spot['emptyFlag'] == 1:
+                freeSpots.append({'spotid': spot['id'], 'spotName': spot['name']})
+                    
+    if len(freeSpots) == 0:
+        return json.dumps( {'success':False, 'error': 'No compatible spots!' } ) , 404
+    ans['spotid'] = freeSpots[0]['spotid']
+    ans['spotName'] = freeSpots[0]['spotName']
+    ans['spots'] = spots
     return json.dumps( {'success':True, 'data': ans } ) , 200
 
 #Create a spot
