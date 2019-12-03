@@ -1,3 +1,16 @@
+
+""" This program creates a database of parking with 3 buildings, 
+	each building has 3 levels, and each level has 10 accessible, 
+	10 green, and 30 general parking spots.
+
+	formulas to calculate id for buildings, levels and spots:
+	building_id = building + 1
+	level_id = 3 * building + level + 1
+	accessible_id = 150*building +50*level + accessible + 1
+	green_id = 150*building +50*level + 10 + green + 1	
+	general_id = 150*building +50*level + 20 + general + 1	
+"""
+
 import requests
 import json
 
@@ -53,3 +66,4 @@ for building in range(BUILDING):
 			  'emptyFlag': 1
 			}			
 			requests.post(LOCAL_URL + '/api/level/' + str(level_index) + '/spot/', data=json.dumps(GENERAL_BODY))
+
