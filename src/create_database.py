@@ -32,6 +32,7 @@ for building in range(BUILDING):
 
 	for level in range(LEVEL):
 		level_index = level + 1
+		level_id = 3 * building + level_index
 		LEVEL_BODY = {
 		  'levelName': BUILDING_BODY['shortName'] + 'L' + str(level_index),
 		  'accessible': SPOT[0]['Count'],
@@ -47,7 +48,7 @@ for building in range(BUILDING):
 			  'name': 'Accessible' + str(accessible_index),
 			  'emptyFlag': 1
 			}
-			requests.post(LOCAL_URL + '/api/level/' + str(level_index) + '/spot/', data=json.dumps(ACCESSIBLE_BODY))
+			requests.post(LOCAL_URL + '/api/level/' + str(level_id) + '/spot/', data=json.dumps(ACCESSIBLE_BODY))
 
 		for green in range(LEVEL_BODY['green']):
 			green_index = green + 1
@@ -56,7 +57,7 @@ for building in range(BUILDING):
 			  'name': 'Green' + str(green_index),
 			  'emptyFlag': 1
 			}
-			requests.post(LOCAL_URL + '/api/level/' + str(level_index) + '/spot/', data=json.dumps(GREEN_BODY))
+			requests.post(LOCAL_URL + '/api/level/' + str(level_id) + '/spot/', data=json.dumps(GREEN_BODY))
 
 		for general in range(LEVEL_BODY['general']):
 			general_index = general + 1
@@ -65,5 +66,5 @@ for building in range(BUILDING):
 			  'name': 'General' + str(general_index),
 			  'emptyFlag': 1
 			}			
-			requests.post(LOCAL_URL + '/api/level/' + str(level_index) + '/spot/', data=json.dumps(GENERAL_BODY))
+			requests.post(LOCAL_URL + '/api/level/' + str(level_id) + '/spot/', data=json.dumps(GENERAL_BODY))
 
