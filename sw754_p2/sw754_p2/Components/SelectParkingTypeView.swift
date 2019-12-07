@@ -24,12 +24,13 @@ class SelectParkingTypeView: UIView {
     var capacityLabel: UILabel!
     
     var padding = 10
+    var cornerRadius: CGFloat = 10
 
     init(type: ParkingType, filled: Int, capacity: Int) {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         
         layer.shadowRadius = 5
-        layer.shadowOpacity = 0.3
+        layer.shadowOpacity = 0.4
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = .zero
         
@@ -45,7 +46,7 @@ class SelectParkingTypeView: UIView {
             
         }
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.layer.cornerRadius = 30
+        containerView.layer.cornerRadius = cornerRadius
         containerView.layer.masksToBounds = true
         addSubview(containerView)
         
@@ -87,12 +88,7 @@ class SelectParkingTypeView: UIView {
     
     
     func setupConstraints() {
-//        NSLayoutConstraint.activate([
-//            containerView.topAnchor.constraint(equalTo: self.topAnchor),
-//            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//        ])
+
         containerView.snp.makeConstraints ({ (make) -> Void in
             make.edges.equalToSuperview()
         })

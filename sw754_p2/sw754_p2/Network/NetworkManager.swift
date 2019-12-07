@@ -16,6 +16,17 @@ struct LotStruct: Codable {
     let buildingShortName: String
     let location: String
     let availability: Int
+    let capacity: Int
+}
+
+struct ParkingTypeAvailability: Codable {
+    let type: String
+    let availability: Int
+    let capacity: Int
+}
+
+struct ParkingTypeAvailabilityResponse: Codable {
+    let types: [ParkingTypeAvailability]
 }
 
 struct GetLotsResponce: Codable {
@@ -40,5 +51,19 @@ class NetworkManager {
         let west2 = Lot(name: "BAKER", location: .west, availability: 5)
         
         completion([north, north2, central, central2, west, west2])
+    }
+    
+    static func getParkingTypes(_ completion: @escaping ([ParkingTypeAvailability]) -> Void) {
+
+        let general: ParkingTypeAvailability = ParkingTypeAvailability(type: "general", availability: 10, capacity: 30)
+
+        let accessible: ParkingTypeAvailability = ParkingTypeAvailability(type: "accessible", availability: 10, capacity: 30)
+
+        let eco: ParkingTypeAvailability = ParkingTypeAvailability(type: "eco", availability: 10, capacity: 30)
+        
+        let response: ParkingTypeAvailabilityResponse = ParkingTypeAvailabilityResponse(types: [general, accessible, eco])
+        
+        completion(response.types)
+        
     }
 }
