@@ -12,46 +12,68 @@ import Alamofire
 import SwiftyJSON
 
 
-struct LotStruct: Codable {
-    let buildingShortName: String
-    let location: String
-    let availability: Int
-    let capacity: Int
-}
-
-struct ParkingTypeAvailability: Codable {
-    let type: String
-    let availability: Int
-    let capacity: Int
-}
-
-struct ParkingTypeAvailabilityResponse: Codable {
-    let types: [ParkingTypeAvailability]
-}
-
-struct GetLotsResponce: Codable {
-    let lots: [LotStruct]
-}
-
 class NetworkManager {
-    private static let server = ""
+    static var address = "http://35.243.204.15"
+    static var getAllParkingBuilding = "\(address)/api/buildings"
+    
+//    static func getLots(_ completion: @escaping ([Lot]) -> Void) {
+//        /*
+//
+//         */
+//
+//        // for now, just generate lots manually
+//
+//        let north = Lot(name: "CC LOT", location: .north, availability: 10)
+//        let north2 = Lot(name: "A LOT", location: .north, availability: 3)
+//        let central = Lot(name: "CENTRAL LOT", location: .central, availability: 10)
+//        let central2 = Lot(name: "RCK LOT", location: .central, availability: 10)
+//        let west = Lot(name: "WEST MAIN", location: .west, availability: 10)
+//        let west2 = Lot(name: "BAKER", location: .west, availability: 5)
+//
+//        completion([north, north2, central, central2, west, west2])
+//    }
     
     static func getLots(_ completion: @escaping ([Lot]) -> Void) {
-        /*
-         
-         */
-        
-        // for now, just generate lots manually
-        
-        let north = Lot(name: "CC LOT", location: .north, availability: 10)
-        let north2 = Lot(name: "A LOT", location: .north, availability: 3)
-        let central = Lot(name: "CENTRAL LOT", location: .central, availability: 10)
-        let central2 = Lot(name: "RCK LOT", location: .central, availability: 10)
-        let west = Lot(name: "WEST MAIN", location: .west, availability: 10)
-        let west2 = Lot(name: "BAKER", location: .west, availability: 5)
-        
-        completion([north, north2, central, central2, west, west2])
-    }
+            Alamofire.request(getAllParkingBuilding, method: .get).validate().responseData(completionHandler: {response in
+                switch response.result {
+                case .success(let data):
+                    let jsonDecoder = JSONDecoder()
+                    if let buildingData = try? jsonDecoder.decode(GetAllBuildingResponse.self, from: data) {
+                        print("yay")
+                        
+                        let buildings = buildingData.data
+    //                    print(buildings)
+                        
+                        var lots: [Lot] = []
+                        
+                        var locations: [Location] = [.north, .central, .west]
+                        
+                        let factor = Int(ceil(8.0 / Double(buildings.count)))
+                        print(factor)
+                        print(factor)
+                        print(factor)
+                        print(factor)
+                        
+                        for i2 in 0...(buildings.count * 3 - 1) {
+                            let i = i2 % buildings.count
+                            
+                            let newLot = Lot(name: buildings[i].longName, location: locations[Int(i2/2)], availability: buildings[i].totalEmpty)
+                            lots.append(newLot)
+                        }
+                        
+    //                    print(lots)
+                        completion(lots)
+                        
+                    } else {
+                        print("aww")
+                    }
+    //                print("success")
+                case .failure(let error):
+                    print(error)
+                    
+                }
+            })
+        }
     
     static func getParkingTypes(_ completion: @escaping ([ParkingTypeAvailability]) -> Void) {
 
