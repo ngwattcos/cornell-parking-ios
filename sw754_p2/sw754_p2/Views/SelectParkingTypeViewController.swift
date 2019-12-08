@@ -17,6 +17,10 @@ class SelectParkingTypeViewController: UIViewController {
     var accessibleView: UIView!
     var ecoView: UIView!
     
+    var parkingTypeAvailability: [LotAvailability] = []
+    
+    var tableView: UITableView!
+    
     
     var padding = 20
 
@@ -31,6 +35,11 @@ class SelectParkingTypeViewController: UIViewController {
         accessibleView.translatesAutoresizingMaskIntoConstraints = false
         ecoView = SelectParkingTypeView(type: .eco, filled: 0, capacity: 10)
         ecoView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+//        tableView.dataSource = self
+//        tableView.delegate = self
         
         view.addSubview(generalView)
         view.addSubview(accessibleView)
@@ -71,4 +80,27 @@ class SelectParkingTypeViewController: UIViewController {
         })
     }
 
+    func getParkingTypes() {
+        NetworkManager.getParkingTypes({ types in
+            self.parkingTypeAvailability.removeAll()
+            
+            for type in types {
+                self.parkingTypeAvailability.append(LotAvailability(lotType: type))
+            }
+            
+        })
+    }
 }
+
+
+//extension SelectParkingTypeViewController: UITableViewDelegate, UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return parkingTypeAvailability.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        return UITableViewCell()
+//    }
+//
+//
+//}

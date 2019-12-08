@@ -22,5 +22,6 @@ A short description of your app (its purpose and features)
 ## Anything else
 Anything else you want your grader to know
 - we used SnapKit
+- I impemented a basic Coordinator pattern, which creates further separation of concerns and compartmentalizes the flow of the app by isolating view controllers from functionality in pushing changes to the screen
 
 Note: The link, screenshots, and description will be used for the Hack Challenge website where we will showcase everyone’s final projects

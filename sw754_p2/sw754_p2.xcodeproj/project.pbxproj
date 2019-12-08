@@ -14,15 +14,17 @@
 		900D11F92385F3EF00E7E2EB /* SelectParkingTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900D11F82385F3EE00E7E2EB /* SelectParkingTypeViewController.swift */; };
 		901DFB4A23879FBB00F0FF52 /* ConfirmLotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901DFB4923879FBB00F0FF52 /* ConfirmLotViewController.swift */; };
 		901DFB4C2387A2B700F0FF52 /* SelectParkingTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901DFB4B2387A2B700F0FF52 /* SelectParkingTypeView.swift */; };
+		9046B4FC238A68210085D4F1 /* LotAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9046B4FB238A68210085D4F1 /* LotAvailability.swift */; };
 		9081FC5B2383CA3300332E22 /* SelectLotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC5A2383CA3300332E22 /* SelectLotViewController.swift */; };
 		9081FC5F2383CA7300332E22 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC5E2383CA7300332E22 /* Coordinator.swift */; };
 		9081FC612383CA8100332E22 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC602383CA8100332E22 /* MainCoordinator.swift */; };
-		9081FC642383CBA900332E22 /* Lot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9081FC632383CBA900332E22 /* Lot.swift */; };
 		90C8A2A3234529A700433A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C8A2A2234529A700433A5B /* AppDelegate.swift */; };
 		90C8A2A9234529AA00433A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90C8A2A8234529AA00433A5B /* Assets.xcassets */; };
 		90C8A2AC234529AA00433A5B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90C8A2AB234529AA00433A5B /* Preview Assets.xcassets */; };
 		90C8A2AF234529AA00433A5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90C8A2AD234529AA00433A5B /* LaunchScreen.storyboard */; };
 		90C8A2B7234A763800433A5B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C8A2B6234A763800433A5B /* MainViewController.swift */; };
+		90ECC156239CCD8B00E69100 /* Lot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ECC155239CCD8A00E69100 /* Lot.swift */; };
+		90ECC159239D874400E69100 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ECC158239D874400E69100 /* Types.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +35,11 @@
 		900D11F82385F3EE00E7E2EB /* SelectParkingTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectParkingTypeViewController.swift; sourceTree = "<group>"; };
 		901DFB4923879FBB00F0FF52 /* ConfirmLotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLotViewController.swift; sourceTree = "<group>"; };
 		901DFB4B2387A2B700F0FF52 /* SelectParkingTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectParkingTypeView.swift; sourceTree = "<group>"; };
+		9033E049239C3CA40013A39A /* ParkingPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ParkingPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		9046B4FB238A68210085D4F1 /* LotAvailability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotAvailability.swift; sourceTree = "<group>"; };
 		9081FC5A2383CA3300332E22 /* SelectLotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLotViewController.swift; sourceTree = "<group>"; };
 		9081FC5E2383CA7300332E22 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		9081FC602383CA8100332E22 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		9081FC632383CBA900332E22 /* Lot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lot.swift; sourceTree = "<group>"; };
 		90C8A29F234529A700433A5B /* sw754_p2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sw754_p2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90C8A2A2234529A700433A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90C8A2A8234529AA00433A5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +47,8 @@
 		90C8A2AE234529AA00433A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		90C8A2B0234529AA00433A5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90C8A2B6234A763800433A5B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		90ECC155239CCD8A00E69100 /* Lot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lot.swift; sourceTree = "<group>"; };
+		90ECC158239D874400E69100 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		AF21C125DBB126A51E5E8B6A /* Pods-sw754_p2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sw754_p2.debug.xcconfig"; path = "Target Support Files/Pods-sw754_p2/Pods-sw754_p2.debug.xcconfig"; sourceTree = "<group>"; };
 		DEF06C7D0EDC49D953605F5C /* Pods-sw754_p2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sw754_p2.release.xcconfig"; path = "Target Support Files/Pods-sw754_p2/Pods-sw754_p2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,7 +103,8 @@
 		9081FC5C2383CA4A00332E22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9081FC632383CBA900332E22 /* Lot.swift */,
+				90ECC155239CCD8A00E69100 /* Lot.swift */,
+				9046B4FB238A68210085D4F1 /* LotAvailability.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -124,6 +130,7 @@
 		90C8A296234529A700433A5B = {
 			isa = PBXGroup;
 			children = (
+				9033E049239C3CA40013A39A /* ParkingPlayground.playground */,
 				90C8A2A1234529A700433A5B /* sw754_p2 */,
 				90C8A2A0234529A700433A5B /* Products */,
 				8481673D278B7E5F4579768C /* Pods */,
@@ -142,6 +149,7 @@
 		90C8A2A1234529A700433A5B /* sw754_p2 */ = {
 			isa = PBXGroup;
 			children = (
+				90ECC157239D873000E69100 /* Types */,
 				900D11F32383CC8100E7E2EB /* Network */,
 				9081FC622383CB8500332E22 /* Components */,
 				9081FC5D2383CA5100332E22 /* Coordinators */,
@@ -164,6 +172,14 @@
 				90C8A2AB234529AA00433A5B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		90ECC157239D873000E69100 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				90ECC158239D874400E69100 /* Types.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,11 +299,13 @@
 			files = (
 				90020BAE234ADA9F0031B02E /* ItemViewCell.swift in Sources */,
 				9081FC612383CA8100332E22 /* MainCoordinator.swift in Sources */,
+				90ECC156239CCD8B00E69100 /* Lot.swift in Sources */,
+				90ECC159239D874400E69100 /* Types.swift in Sources */,
 				90C8A2A3234529A700433A5B /* AppDelegate.swift in Sources */,
-				9081FC642383CBA900332E22 /* Lot.swift in Sources */,
 				901DFB4A23879FBB00F0FF52 /* ConfirmLotViewController.swift in Sources */,
 				900D11F52383CCA500E7E2EB /* NetworkManager.swift in Sources */,
 				9081FC5F2383CA7300332E22 /* Coordinator.swift in Sources */,
+				9046B4FC238A68210085D4F1 /* LotAvailability.swift in Sources */,
 				9081FC5B2383CA3300332E22 /* SelectLotViewController.swift in Sources */,
 				900D11F72384EC0200E7E2EB /* LotCollectionViewCell.swift in Sources */,
 				90C8A2B7234A763800433A5B /* MainViewController.swift in Sources */,
