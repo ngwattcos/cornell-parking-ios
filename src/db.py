@@ -55,14 +55,16 @@ class Level(db.Model):
         for spot in self.spots:
             aspot = spot.serialize()
             if aspot['emptyFlag'] == 1:
-                count += 1                
                 if aspot['parkType'] == 'accessible':
                     countAcc += 1
+                    count += 1
                 elif aspot['parkType'] == 'green':
                     countGre += 1
+                    count += 1
                 else:
                     countGen += 1
-                                
+                    count +=1
+            
         return {
                 'id': self.id,
                 'levelName': self.levelName,

@@ -85,7 +85,7 @@ def get_a_building(buildingID):
     return json.dumps( {'success':True, 'data':ans} ) , 200
 
 #Delete a building
-@app.route('/api/building/<int:buildingID>/', methods=['DELETE']) # /api/building/ instead of level?
+@app.route('/api/building/<int:buildingID>/', methods=['DELETE'])
 def delete_building(buildingID):
     building = Building.query.filter_by(id = buildingID).first()
     if not building:
@@ -191,6 +191,7 @@ def enter_level(levelID, parkTypeInt):
     ans['spotName'] = freeSpots[0]['spotName']
     ans['spots'] = spots
     return json.dumps( {'success':True, 'data': ans } ) , 200
+
 
 #Create a spot
 @app.route('/api/level/<int:levelID>/spot/', methods=['POST'])
