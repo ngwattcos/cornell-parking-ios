@@ -7,6 +7,9 @@ A General-Purpose Parking Management App
 
 ## Links
 (Link(s) to any other public GitHub repo(s) of your app. If you have one repo for iOS and one for Backend, please link to your backend repo in your iOS README, and your iOS repo in your backend README.)
+Routes and API
+http://35.243.204.15
+https://docs.google.com/document/d/1vTDFgSHUeEgvfJwz6D19ay7iWVoF_O0G622NE8i0p_U/edit?usp=sharing
 
 ## Screenshots
 Some screenshots of your app (highlight important features)
