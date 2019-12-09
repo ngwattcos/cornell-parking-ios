@@ -99,9 +99,10 @@ struct GetBuildingAvailabilityResponse: Codable {
 // used Stack Overflow at
 // https://stackoverflow.com/questions/57564740/swift-5-jsondecoder-decode-json-with-field-name-having-a-space-eg-post-title
 // to decode JSON keys that have spaces
+
 struct LevelStruct: Codable {
     let levelName: String
-    let levelId: String
+    let levelId: Int
     private enum CodingKeys: String, CodingKey {
         case levelName = "Level Name"
         case levelId = "Level ID"
@@ -111,6 +112,8 @@ struct ParkingTypeStruct: Codable {
     let spotId: Int
     let spotName: String
     let levelName: LevelStruct
+    let levels: [LevelStruct]
+    let spots: [SpotStruct]
 }
 
 struct GetAllParkingTypeResponse: Codable {

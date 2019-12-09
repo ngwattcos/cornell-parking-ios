@@ -38,4 +38,8 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func selectSpot(spot: Spot) {
+        print("selected spot \(spot.id)")
+    }
 }

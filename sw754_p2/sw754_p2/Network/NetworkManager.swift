@@ -16,6 +16,7 @@ class NetworkManager {
     static var address = "http://35.243.204.15"
     static var getAllParkingBuilding = "\(address)/api/buildings"
     static var getAvailability = "\(address)/api/building"
+//    static var getLevels = "\(address)/api/"
     
     static func getLots2(_ completion: @escaping ([Lot]) -> Void) {
         /*
@@ -39,7 +40,7 @@ class NetworkManager {
     }
     
     static func getLots(_ completion: @escaping ([Lot]) -> Void) {
-        Alamofire.request(getAllParkingBuilding, method: .get).validate().responseData(completionHandler: {response in
+        Alamofire.request("\(address)/api/building", method: .get).validate().responseData(completionHandler: {response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
@@ -114,5 +115,38 @@ class NetworkManager {
             
     }
     
+    static func getLevels(id: Int, _ completion: @escaping (Spot, [Spot], [Level]) -> Void) {
+        Alamofire.request("\(getAvailability)/\(id)", method: .get).validate().responseData(completionHandler: {response in
+            switch response.result {
+            case .success(let data):
+               print("success")
+               
+               let jsonDecoder = JSONDecoder()
+               if let parkingData = try? jsonDecoder.decode(GetAllParkingTypeResponse.self, from: data) {
+                    
+                    let spotsData = parkingData.data.spots
+                    let levelsData = parkingData.data.levels
+                    var levels: [Level] = []
+                    var spots: [Spot] = []
+                
+                    for spot in spotsData {
+                        spots.append(Spot(id: spot.id, occupied: spot.emptyFlag == 0, parkType: spot.parkType, startTime: spot.startTime, endTime: spot.endTime))
+                    }
+                
+                    for level in levelsData {
+                        levels.append(Level(id: level.levelId, name: level.levelName))
+                    }
+                
+                    // note: "parktype", "startTime", and "endTime", is missing in the APi call
+                    let suggestedSpot = Spot(id: parkingData.data.spotId, occupied: false, parkType: "general", startTime: "", endTime: "")
+                    
+                    completion(suggestedSpot, spots, levels)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
     
 }
