@@ -165,12 +165,12 @@ struct GetBuildingAvailabilityResponse: Codable {
 // to decode JSON keys that have spaces
 
 struct LevelStruct: Codable {
-    let name: String
-    let levelId: Int
-    private enum CodingKeys: String, CodingKey {
-        case name = "Level Name"
-        case levelId = "Level ID"
-    }
+    let levelName: String
+    let levelID: Int
+//    private enum CodingKeys: String, CodingKey {
+//        case name = "Level Name"
+//        case levelId = "Level ID"
+//    }
 }
 struct ParkingTypeStruct: Codable {
     let spotId: Int
@@ -245,7 +245,7 @@ class NetworkManger {
                     }
                 
                     for level in levelsData {
-                        levels.append(Level(id: level.levelId, name: level.name))
+                        levels.append(Level(id: level.levelID, name: level.levelName))
                     }
                 
                     // note: "parktype", "startTime", and "endTime", is missing in the APi call
