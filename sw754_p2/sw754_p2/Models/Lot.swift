@@ -15,16 +15,18 @@ enum Location: String {
 }
 
 class Lot {
+    let id: Int
     let name: String
     let location: Location
     let locationString: String
     let availability: Int
     
-    init(name: String, location: Location, availability: Int) {
+    init(name: String, location: Location, availability: Int, id: Int) {
         self.name = name
         self.location = location
         self.availability = availability
         self.locationString = Lot.locationToString(location: location)
+        self.id = id
     }
     
     static func locationToString(location: Location) -> String {

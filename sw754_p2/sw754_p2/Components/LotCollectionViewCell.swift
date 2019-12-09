@@ -111,7 +111,9 @@ class LotCollectionViewCell: UICollectionViewCell {
     func configure(for lot: Lot, index: Int) {
         nameLabel.text = lot.name
         
-        let color = colors[((index % colors.count) + colors.count) % colors.count]
+//        let color = colors[((index % colors.count) + colors.count) % colors.count]
+        
+        let color = colors[((lot.id % colors.count) + colors.count) % colors.count]
         let imageName: String = "parking_\(lot.location.rawValue)_\(color)"
         
         backgroundImageView.image = UIImage(named: imageName)

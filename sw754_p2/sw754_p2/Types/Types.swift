@@ -44,7 +44,7 @@ struct SpotStruct: Codable {
     let endTime: String
 }
 
-struct LevelStruct: Codable {
+struct LotEntireStruct: Codable {
     let id: Int
     let levelName: String
     let green: Int
@@ -75,4 +75,45 @@ struct BuildingStructSimple: Codable {
 struct GetAllBuildingResponse: Codable {
     let success: Bool
     let data: [BuildingStructSimple]
+}
+
+
+struct BuildingAvailabilityStruct: Codable {
+    let id: Int
+    let longName: String
+    let accessible: Int
+    let accessibleEmpty: Int
+    let green: Int
+    let greenEmpty: Int
+    let general: Int
+    let generalEmpty: Int
+    let total: Int
+    let totalEmpty: Int
+}
+
+struct GetBuildingAvailabilityResponse: Codable {
+    let success: Bool
+    let data: BuildingAvailabilityStruct
+}
+
+// used Stack Overflow at
+// https://stackoverflow.com/questions/57564740/swift-5-jsondecoder-decode-json-with-field-name-having-a-space-eg-post-title
+// to decode JSON keys that have spaces
+struct LevelStruct: Codable {
+    let levelName: String
+    let levelId: String
+    private enum CodingKeys: String, CodingKey {
+        case levelName = "Level Name"
+        case levelId = "Level ID"
+    }
+}
+struct ParkingTypeStruct: Codable {
+    let spotId: Int
+    let spotName: String
+    let levelName: LevelStruct
+}
+
+struct GetAllParkingTypeResponse: Codable {
+    let success: Bool
+    let data: ParkingTypeStruct
 }

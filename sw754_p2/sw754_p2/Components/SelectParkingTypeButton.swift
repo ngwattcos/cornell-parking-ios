@@ -1,19 +1,21 @@
 //
-//  SelectParkingTypeView.swift
+//  SelectParkingTypeButton.swift
 //  sw754_p2
 //
-//  Created by Scott Wang on 11/21/19.
+//  Created by Scott Wang on 12/8/19.
 //  Copyright © 2019 Scott Wang. All rights reserved.
 //
 
 import UIKit
 import SnapKit
 
+enum ParkingType: String {
+    case general = "general"
+    case accessible = "accessible"
+    case eco = "eco"
+}
 
-class SelectParkingTypeView: UIView, UIGestureRecognizerDelegate {
-    
-
-    
+class SelectParkingTypeButton: UIButton {
     var containerView: UIView!
     var verticalBar: UIView!
     var typeLabel: UILabel!
@@ -32,26 +34,21 @@ class SelectParkingTypeView: UIView, UIGestureRecognizerDelegate {
     init(type: ParkingType, available: Int, capacity: Int) {
         
         
-//        containerview
-        
         containerView = UIView()
         switch type {
         case .general:
-            typeID = 2
+            typeID = 1
             containerView.backgroundColor = .systemYellow
         case .accessible:
             typeID = 0
             containerView.backgroundColor = .systemBlue
-//            containerView.backgroundColor = UIColor(red: CGFloat(0.31), green: CGFloat(0.86), blue: CGFloat(0.19), alpha: CGFloat(1.0))
         case .eco:
-            typeID = 1
+            typeID = 2
             containerView.backgroundColor = UIColor(red: CGFloat(0.31), green: CGFloat(0.86), blue: CGFloat(0.19), alpha: CGFloat(1.0))
             
         }
         
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        
-
         
         layer.shadowRadius = 5
         layer.shadowOpacity = 0.4
@@ -90,7 +87,6 @@ class SelectParkingTypeView: UIView, UIGestureRecognizerDelegate {
         setupConstraints()
         
     }
-
     
     func getImage(type: ParkingType) -> String {
         return "type_\(type.rawValue)_gray"

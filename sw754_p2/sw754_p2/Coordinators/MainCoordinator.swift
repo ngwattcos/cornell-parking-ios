@@ -30,4 +30,12 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func selectParkingType(type: Int) {
+        print("selecting parking type \(type)")
+        let vc = SelectSpotViewController()
+        vc.typeId = type
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
+    }
 }

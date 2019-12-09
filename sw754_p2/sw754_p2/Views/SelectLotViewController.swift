@@ -73,6 +73,7 @@ class SelectLotViewController: UIViewController {
     }
     
     @objc func loadLots() {
+        print("loaded lots")
         NetworkManager.getLots({ lots in
             self.lots.removeAll()
             

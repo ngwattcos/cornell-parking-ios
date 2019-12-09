@@ -10,12 +10,18 @@ import UIKit
 import SnapKit
 
 class SelectParkingTypeViewController: UIViewController {
-    var coordinator: Coordinator?
+    var coordinator: MainCoordinator?
     var lot: Lot?
     
-    var generalView: UIView!
-    var accessibleView: UIView!
-    var ecoView: UIView!
+    var tap0: UITapGestureRecognizer!
+    var tap1: UITapGestureRecognizer!
+    var tap2: UITapGestureRecognizer!
+    
+    var generalView: SelectParkingTypeView!
+    var accessibleView: SelectParkingTypeView!
+    var ecoView: SelectParkingTypeView!
+    
+//    let refreshControl = UIRefreshControl()
     
     var parkingTypeAvailability: [LotAvailability] = []
     
@@ -29,34 +35,40 @@ class SelectParkingTypeViewController: UIViewController {
         title = "Select Parking Type"
         // Do any additional setup after loading the view.
         
-        generalView = SelectParkingTypeView(type: .general, filled: 0, capacity: 10)
+        generalView = SelectParkingTypeView(type: .general, available: 0, capacity: 10)
         generalView.translatesAutoresizingMaskIntoConstraints = false
-        accessibleView = SelectParkingTypeView(type: .accessible, filled: 0, capacity: 10)
+        accessibleView = SelectParkingTypeView(type: .accessible, available: 0, capacity: 10)
         accessibleView.translatesAutoresizingMaskIntoConstraints = false
-        ecoView = SelectParkingTypeView(type: .eco, filled: 0, capacity: 10)
+        ecoView = SelectParkingTypeView(type: .eco, available: 0, capacity: 10)
         ecoView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.dataSource = self
-//        tableView.delegate = self
+
+        tap0 = UITapGestureRecognizer(target: self, action: #selector(loadAccessible))
+        tap1 = UITapGestureRecognizer(target: self, action: #selector(loadEco))
+        tap2 = UITapGestureRecognizer(target: self, action: #selector(loadGeneral))
+        
+        accessibleView.addGestureRecognizer(tap0)
+        accessibleView.isUserInteractionEnabled = true
+        ecoView.addGestureRecognizer(tap1)
+        ecoView.isUserInteractionEnabled = true
+        generalView.addGestureRecognizer(tap2)
+        generalView.isUserInteractionEnabled = true
         
         view.addSubview(generalView)
         view.addSubview(accessibleView)
         view.addSubview(ecoView)
         
+
         view.backgroundColor = .white
         
+        
+        loadAvailability()
         setupConstraints()
     }
     
     func setupConstraints() {
-//        NSLayoutConstraint.activate([
-//            accessibleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            accessibleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            accessibleView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-//            accessibleView.heightAnchor.constraint(equalToConstant: CGFloat(100)),
-//        ])
         accessibleView.snp.makeConstraints({ make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -80,27 +92,35 @@ class SelectParkingTypeViewController: UIViewController {
         })
     }
 
-    func getParkingTypes() {
-        NetworkManager.getParkingTypes({ types in
-            self.parkingTypeAvailability.removeAll()
+    @objc func loadAvailability() {
+        print("potato?")
+        NetworkManager.getParkingTypes(id: lot?.id ?? 1, { availability in
             
-            for type in types {
-                self.parkingTypeAvailability.append(LotAvailability(lotType: type))
-            }
-            
+            DispatchQueue.main.async(execute: {
+                let accessibleData = availability[0]
+                let ecoData = availability[1]
+                let generalData = availability[2]
+                print("receiving data:\(accessibleData)\n\(ecoData)\n\(generalData)")
+                self.accessibleView.update(available: accessibleData.availability, capacity: accessibleData.capacity)
+                self.ecoView.update(available: ecoData.availability, capacity: ecoData.capacity)
+                self.generalView.update(available: generalData.availability, capacity: generalData.capacity)
+                
+//                self.refreshControl.endRefreshing()
+//                self.collectionView.reloadData()
+            })
         })
+        
+    }
+    
+    @objc func loadGeneral() {
+        coordinator?.selectParkingType(type: 2)
+    }
+    
+    @objc func loadEco() {
+        coordinator?.selectParkingType(type: 1)
+    }
+    
+    @objc func loadAccessible() {
+        coordinator?.selectParkingType(type: 0)
     }
 }
-
-
-//extension SelectParkingTypeViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return parkingTypeAvailability.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        return UITableViewCell()
-//    }
-//
-//
-//}
